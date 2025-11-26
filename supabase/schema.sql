@@ -151,29 +151,47 @@ create or replace function public.current_tenant() returns uuid language sql sta
 $$;
 
 -- Policies (read/write only within tenant)
-create policy if not exists tenant_isolation_select on public.categories for select using (tenant_id = public.current_tenant());
-create policy if not exists tenant_isolation_mod on public.categories for all using (tenant_id = public.current_tenant()) with check (tenant_id = public.current_tenant());
+drop policy if exists tenant_isolation_select on public.categories;
+create policy tenant_isolation_select on public.categories for select using (tenant_id = public.current_tenant());
+drop policy if exists tenant_isolation_mod on public.categories;
+create policy tenant_isolation_mod on public.categories for all using (tenant_id = public.current_tenant()) with check (tenant_id = public.current_tenant());
 
-create policy if not exists tenant_isolation_select_products on public.products for select using (tenant_id = public.current_tenant());
-create policy if not exists tenant_isolation_mod_products on public.products for all using (tenant_id = public.current_tenant()) with check (tenant_id = public.current_tenant());
+drop policy if exists tenant_isolation_select_products on public.products;
+create policy tenant_isolation_select_products on public.products for select using (tenant_id = public.current_tenant());
+drop policy if exists tenant_isolation_mod_products on public.products;
+create policy tenant_isolation_mod_products on public.products for all using (tenant_id = public.current_tenant()) with check (tenant_id = public.current_tenant());
 
-create policy if not exists tenant_isolation_select_catalogs on public.catalogs for select using (tenant_id = public.current_tenant());
-create policy if not exists tenant_isolation_mod_catalogs on public.catalogs for all using (tenant_id = public.current_tenant()) with check (tenant_id = public.current_tenant());
+drop policy if exists tenant_isolation_select_catalogs on public.catalogs;
+create policy tenant_isolation_select_catalogs on public.catalogs for select using (tenant_id = public.current_tenant());
+drop policy if exists tenant_isolation_mod_catalogs on public.catalogs;
+create policy tenant_isolation_mod_catalogs on public.catalogs for all using (tenant_id = public.current_tenant()) with check (tenant_id = public.current_tenant());
 
-create policy if not exists tenant_isolation_media_s on public.media_assets for select using (tenant_id = public.current_tenant());
-create policy if not exists tenant_isolation_media_m on public.media_assets for all using (tenant_id = public.current_tenant()) with check (tenant_id = public.current_tenant());
+drop policy if exists tenant_isolation_media_s on public.media_assets;
+create policy tenant_isolation_media_s on public.media_assets for select using (tenant_id = public.current_tenant());
+drop policy if exists tenant_isolation_media_m on public.media_assets;
+create policy tenant_isolation_media_m on public.media_assets for all using (tenant_id = public.current_tenant()) with check (tenant_id = public.current_tenant());
 
-create policy if not exists tenant_isolation_click_s on public.click_logs for select using (tenant_id = public.current_tenant());
-create policy if not exists tenant_isolation_click_i on public.click_logs for insert with check (tenant_id = public.current_tenant());
+drop policy if exists tenant_isolation_click_s on public.click_logs;
+create policy tenant_isolation_click_s on public.click_logs for select using (tenant_id = public.current_tenant());
+drop policy if exists tenant_isolation_click_i on public.click_logs;
+create policy tenant_isolation_click_i on public.click_logs for insert with check (tenant_id = public.current_tenant());
 
-create policy if not exists tenant_isolation_layout_s on public.layout_theme for select using (tenant_id is null or tenant_id = public.current_tenant());
-create policy if not exists tenant_isolation_layout_m on public.layout_theme for all using (tenant_id = public.current_tenant()) with check (tenant_id = public.current_tenant());
+drop policy if exists tenant_isolation_layout_s on public.layout_theme;
+create policy tenant_isolation_layout_s on public.layout_theme for select using (tenant_id is null or tenant_id = public.current_tenant());
+drop policy if exists tenant_isolation_layout_m on public.layout_theme;
+create policy tenant_isolation_layout_m on public.layout_theme for all using (tenant_id = public.current_tenant()) with check (tenant_id = public.current_tenant());
 
-create policy if not exists tenant_isolation_pages_s on public.page_content for select using (tenant_id = public.current_tenant());
-create policy if not exists tenant_isolation_pages_m on public.page_content for all using (tenant_id = public.current_tenant()) with check (tenant_id = public.current_tenant());
+drop policy if exists tenant_isolation_pages_s on public.page_content;
+create policy tenant_isolation_pages_s on public.page_content for select using (tenant_id = public.current_tenant());
+drop policy if exists tenant_isolation_pages_m on public.page_content;
+create policy tenant_isolation_pages_m on public.page_content for all using (tenant_id = public.current_tenant()) with check (tenant_id = public.current_tenant());
 
-create policy if not exists tenant_isolation_import_s on public.import_jobs for select using (tenant_id = public.current_tenant());
-create policy if not exists tenant_isolation_import_m on public.import_jobs for all using (tenant_id = public.current_tenant()) with check (tenant_id = public.current_tenant());
+drop policy if exists tenant_isolation_import_s on public.import_jobs;
+create policy tenant_isolation_import_s on public.import_jobs for select using (tenant_id = public.current_tenant());
+drop policy if exists tenant_isolation_import_m on public.import_jobs;
+create policy tenant_isolation_import_m on public.import_jobs for all using (tenant_id = public.current_tenant()) with check (tenant_id = public.current_tenant());
 
-create policy if not exists tenant_isolation_notifications_s on public.notifications for select using (tenant_id = public.current_tenant());
-create policy if not exists tenant_isolation_notifications_m on public.notifications for all using (tenant_id = public.current_tenant()) with check (tenant_id = public.current_tenant());
+drop policy if exists tenant_isolation_notifications_s on public.notifications;
+create policy tenant_isolation_notifications_s on public.notifications for select using (tenant_id = public.current_tenant());
+drop policy if exists tenant_isolation_notifications_m on public.notifications;
+create policy tenant_isolation_notifications_m on public.notifications for all using (tenant_id = public.current_tenant()) with check (tenant_id = public.current_tenant());
