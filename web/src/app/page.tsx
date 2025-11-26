@@ -5,7 +5,12 @@ import { getCategories } from '@/lib/supabase/queries'
 export default async function Home() {
     const h = await headers()
     const tenantId = h.get('x-tenant') ?? 'default'
+
+    console.log('[Home] Tenant ID:', tenantId)
+
     const categories = await getCategories(tenantId)
+
+    console.log('[Home] Categories found:', categories.length)
 
     return (
         <main className="mx-auto max-w-6xl px-6 py-8">
@@ -22,7 +27,7 @@ export default async function Home() {
                 </Link>
             </section>
 
-            {categories.length > 0 && (
+            {categories.length > 0 ? (
                 <section>
                     <h2 className="text-2xl font-semibold mb-6">Categorias</h2>
                     <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -36,6 +41,11 @@ export default async function Home() {
                             </Link>
                         ))}
                     </div>
+                </section>
+            ) : (
+                <section className="text-center py-12">
+                    <p className="text-gray-400 mb-4">Nenhuma categoria encontrada para o tenant: <span className="text-emerald-400 font-mono">{tenantId}</span></p>
+                    <p className="text-sm text-gray-500">Execute o seed.sql no Supabase para adicionar dados de teste.</p>
                 </section>
             )}
 
